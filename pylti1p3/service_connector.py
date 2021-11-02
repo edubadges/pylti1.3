@@ -57,8 +57,8 @@ class ServiceConnector(object):
             "iss": client_id,
             "sub": client_id,
             "aud": aud,
-            "iat": int(time.time()) - 5,
-            "exp": int(time.time()) + 60,
+            "iat": int(time.time()) - (5 * 60),
+            "exp": int(time.time()) + (5 * 60),
             "jti": 'lti-service-token-' + str(uuid.uuid4())
         }
         headers = None
