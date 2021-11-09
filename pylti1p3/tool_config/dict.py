@@ -100,6 +100,7 @@ class ToolConfDict(ToolConfAbstract[Request]):
         reg.set_auth_login_url(iss_conf['auth_login_url'])\
             .set_auth_token_url(iss_conf['auth_token_url'])\
             .set_client_id(iss_conf['client_id'])\
+            .set_institution_identifier(iss_conf['institution_identifier']) \
             .set_key_set(iss_conf.get('key_set'))\
             .set_key_set_url(iss_conf.get('key_set_url'))\
             .set_issuer(iss)\

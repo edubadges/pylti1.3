@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -38,6 +37,10 @@ class Migration(migrations.Migration):
                 ('issuer', models.CharField(help_text="This will usually look something like 'http://example.com'. "
                                                       "Value provided by LTI 1.3 Platform", max_length=255)),
                 ('client_id', models.CharField(help_text='Value provided by LTI 1.3 Platform', max_length=255)),
+                ('institution_identifier',
+                 models.CharField(help_text='Identifier of the institution owning the LTI 1.3 Platform',
+                                  max_length=255)),
+
                 ('use_by_default', models.BooleanField(default=False, help_text='This iss config will be used in case '
                                                                                 'if client-id was not passed')),
                 ('auth_login_url', models.CharField(help_text="The platform's OIDC login endpoint. "

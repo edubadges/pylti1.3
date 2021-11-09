@@ -67,6 +67,7 @@ class DjangoDbToolConf(ToolConfAbstract):
             .set_auth_token_url(lti_tool.auth_token_url) \
             .set_auth_audience(auth_audience) \
             .set_client_id(lti_tool.client_id) \
+            .set_institution_identifier(lti_tool.institution_identifier) \
             .set_key_set(key_set) \
             .set_key_set_url(key_set_url) \
             .set_issuer(lti_tool.issuer) \
