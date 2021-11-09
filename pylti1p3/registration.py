@@ -19,6 +19,7 @@ if t.TYPE_CHECKING:
 class Registration(object):
     _issuer = None  # type: t.Optional[str]
     _client_id = None  # type: t.Optional[str]
+    _institution_identifier = None  # type: t.Optional[str]
     _key_set_url = None  # type: t.Optional[str]
     _key_set = None  # type: t.Optional[_KeySet]
     _auth_token_url = None  # type: t.Optional[str]
@@ -43,6 +44,15 @@ class Registration(object):
     def set_client_id(self, client_id):
         # type: (T_SELF, str) -> T_SELF
         self._client_id = client_id
+        return self
+
+    def get_institution_identifier(self):
+        # type: () -> t.Optional[str]
+        return self._institution_identifier
+
+    def set_institution_identifier(self, institution_identifier):
+        # type: (T_SELF, str) -> T_SELF
+        self._institution_identifier = institution_identifier
         return self
 
     def get_key_set(self):
