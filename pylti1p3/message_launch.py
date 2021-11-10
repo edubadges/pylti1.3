@@ -177,12 +177,14 @@ class MessageLaunch(t.Generic[REQ, TCONF, SES, COOK]):
     _launch_id = None  # type: str
     _validated = False  # type: bool
     _auto_validation = True  # type: bool
+    _deployment_validation = True  # type: bool
     _restored = False  # type: bool
     _id_token_hash = None  # type: t.Optional[str]
     _public_key_cache_data_storage = None  # type: t.Optional[LaunchDataStorage[t.Any]]
     _public_key_cache_lifetime = None  # type: t.Optional[int]
 
-    def __init__(self, request, tool_config, session_service, cookie_service, launch_data_storage=None):
+    def __init__(self, request, tool_config, session_service, cookie_service, launch_data_storage=None,
+                 deployment_validation=True):
         # type: (REQ, TCONF, SES, COOK, t.Optional[LaunchDataStorage[t.Any]]) -> None
         self._request = request
         self._tool_config = tool_config
@@ -193,6 +195,7 @@ class MessageLaunch(t.Generic[REQ, TCONF, SES, COOK]):
         self._jwt_verify_options = {'verify_aud': False}
         self._id_token_hash = None
         self._validated = False
+        self._deployment_validation = deployment_validation
         self._auto_validation = True
         self._restored = False
         self._public_key_cache_data_storage = None
@@ -627,13 +630,14 @@ class MessageLaunch(t.Generic[REQ, TCONF, SES, COOK]):
         deployment_id = self._get_deployment_id()
         tool_config = self._tool_config  # type: ToolConfAbstract
 
-        # Find deployment.
-        if tool_config.check_iss_has_one_client(iss):
-            deployment = tool_config.find_deployment(iss, deployment_id)
-        else:
-            deployment = tool_config.find_deployment_by_params(iss, deployment_id, client_id)
-        if not deployment:
-            raise LtiException("Unable to find deployment")
+        # Find deployment if required
+        if self._deployment_validation:
+            if tool_config.check_iss_has_one_client(iss):
+                deployment = tool_config.find_deployment(iss, deployment_id)
+            else:
+                deployment = tool_config.find_deployment_by_params(iss, deployment_id, client_id)
+            if not deployment:
+                raise LtiException("Unable to find deployment")
 
         return self
 
